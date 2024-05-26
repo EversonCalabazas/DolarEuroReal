@@ -14,10 +14,17 @@ items = json.loads(response.text)
 items_Dolar = json.loads(response.text)["USDBRL"]
 items_Euro = json.loads(response.text)["EURBRL"]
 
-dolarDF = pd.DataFrame([items_Dolar])
-dolarDF = dolarDF.drop(columns=['code','codein','varBid','bid','ask', 'timestamp','pctChange'])
-euroDF = pd.DataFrame([items_Euro])
-euroDF = euroDF.drop(columns=['code','codein','varBid','bid','ask', 'timestamp','pctChange'])
+dropColumns = ['code','codein','varBid','bid','ask', 'timestamp','pctChange']
 
-print(dolarDF)
-print(euroDF)
+dolarDF = pd.DataFrame.from_dict([items_Dolar])
+dolarDF = dolarDF.drop(columns=dropColumns)
+
+
+euroDF = pd.DataFrame.from_dict([items_Euro])
+euroDF = euroDF.drop(columns=dropColumns)
+
+frames = [dolarDF, euroDF]
+
+result = pd.concat(frames)
+
+result
